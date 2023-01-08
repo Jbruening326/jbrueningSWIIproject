@@ -11,7 +11,6 @@ import java.io.IOException;
 
 
 //TODO
-//Add controller functionality to go to all screens
 //Build models, DAOs and interface
 //Also need to complete the UML Diagram
 
@@ -19,6 +18,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("logIn.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 300);
         stage.setScene(scene);

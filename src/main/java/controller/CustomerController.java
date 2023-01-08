@@ -1,7 +1,10 @@
 package controller;
 
+import helper.ControllerHelper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 
 public class CustomerController {
     public Button saveButton;
@@ -30,5 +33,13 @@ public class CustomerController {
     }
 
     public void onUpdateRadioButtonClick(ActionEvent actionEvent) {
+    }
+
+    public void onSaveButtonClick(ActionEvent actionEvent) throws IOException {
+        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
+    }
+
+    public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {
+        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }
 }

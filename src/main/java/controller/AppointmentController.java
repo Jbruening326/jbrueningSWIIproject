@@ -1,7 +1,10 @@
 package controller;
 
+import helper.ControllerHelper;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 
 public class AppointmentController {
     public Label messageLabel;
@@ -20,10 +23,12 @@ public class AppointmentController {
     public ComboBox userComboBox;
 
 
-    public void onSaveButtonClick(ActionEvent actionEvent) {
+    public void onSaveButtonClick(ActionEvent actionEvent) throws IOException {
+        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }
 
-    public void onCancelButtonClick(ActionEvent actionEvent) {
+    public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {
+        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }
 
     public void onStartComboSelection(ActionEvent actionEvent) {

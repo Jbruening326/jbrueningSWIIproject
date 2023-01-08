@@ -48,7 +48,7 @@
       <HBox alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="221.0" prefHeight="35.0" prefWidth="600.0" spacing="75.0">
          <children>
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
-            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onExtiButtonClick" prefWidth="46.0" text="Exit" />
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#onExitButtonClick" prefWidth="46.0" text="Exit" />
          </children>
          <padding>
             <Insets right="20.0" />
