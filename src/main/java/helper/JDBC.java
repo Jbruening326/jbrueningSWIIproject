@@ -3,6 +3,9 @@ package helper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * This abstract class contains methods to open and close the connection to the database.
+ */
 public abstract class JDBC {
 
     private static final String protocol = "jdbc";
@@ -15,6 +18,9 @@ public abstract class JDBC {
     private static final String password = "Passw0rd!";
     public static Connection connection;
 
+    /**
+     * This method connects to the database. When this method is called, the database connection will be established.
+     */
     public static void openConnection(){
         try{
             Class.forName(driver);
@@ -26,6 +32,9 @@ public abstract class JDBC {
         }
     }
 
+    /**
+     * This method disconnects the database. When this method is called, the database connection will be terminated.
+     */
     public static void closeConnection(){
         try{
             connection.close();

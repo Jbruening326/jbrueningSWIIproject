@@ -14,6 +14,6 @@ public class ResultController {
     public Button toReportsButton;
 
     public void onToReportButtonClick(ActionEvent actionEvent) throws IOException {
-        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
+        ControllerHelper.changeScene(actionEvent, "reports.fxml", 696, 427);
     }
 }
