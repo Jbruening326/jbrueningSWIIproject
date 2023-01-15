@@ -1,26 +1,22 @@
 package com.example.c195jbruening;
 
-import dao.AppointmentDao;
-import dao.ContactDao;
-import dao.CountryDao;
+
 import helper.JDBC;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Appointment;
-import model.Country;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 //TODO
-//Currently building DAO methods need: CustomerDAO, FirstLevelDivisionDao, UserDao. Do JavaDoc while building
-//Completed AppointmentDAO, ContactDao, CountryDao with javadocs.
+//Continue to build DAOs with needed additional methods
+//Do JavaDoc while building
+//Completed All Dao classes
 //Build Helper Classes as needed?
 
 //Complete Section A(1,2,3a,3b,3c,3d,3e,3f)
@@ -47,6 +43,10 @@ public class Main extends Application {
         JDBC.openConnection();
 
         //launch();
+        ResourceBundle fr = ResourceBundle.getBundle(
+                "helper/LanguageBundle_fr_FR.properties", Locale.getDefault());
+        if (Locale.getDefault().getLanguage().equals("fr"))
+            System.out.println(fr.getString("hello") + " " + fr.getString("world"));
 
 
         JDBC.closeConnection();

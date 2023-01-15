@@ -1,5 +1,9 @@
 package model;
 
+import dao.AppointmentDao;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Customer {
     private int customerId;
     private String customerName;
@@ -7,6 +11,7 @@ public class Customer {
     private String postalCode;
     private String phone;
     private int divisionId;
+
 
     public Customer(int customerId, String customerName, String address, String postalCode, String phone, int divisionId) {
         this.customerId = customerId;
@@ -64,4 +69,6 @@ public class Customer {
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
+
+
 }

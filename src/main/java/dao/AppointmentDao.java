@@ -20,7 +20,6 @@ import static helper.JDBC.connection;
  */
 public abstract class AppointmentDao {
 
-
     /**
      * This method retrieves a single appointment record. When this method is called a single record
      * from the appointments table will be returned.
@@ -132,7 +131,7 @@ public abstract class AppointmentDao {
      */
     public static int update(Appointment appointment) throws SQLException {
 
-        String sql = "UPDATE appointments set Title = ?, Description = ?, Location = ?, Type = ?, " +
+        String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, " +
                 "Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
                 "WHERE Appointment_ID = ? ";
         PreparedStatement ps = connection.prepareStatement(sql);

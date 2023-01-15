@@ -2,7 +2,6 @@ package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Contact;
 import model.Country;
 
 import java.sql.PreparedStatement;
@@ -33,7 +32,6 @@ public abstract class CountryDao {
             int countryId = rs.getInt("Country_ID");
             String name = rs.getString("Country");
 
-
             //Print statement to check Object visually
             System.out.println(countryId + "|" + name);
 
@@ -41,7 +39,6 @@ public abstract class CountryDao {
         }
         return country;
     }
-
 
     /**
      * This method retrieves all country records. When this method is called, all records from the countries
@@ -60,8 +57,6 @@ public abstract class CountryDao {
             int countryId = rs.getInt("Country_ID");
             String name = rs.getString("Country");
 
-
-
             Country country = new Country(countryId, name);
 
             allCountries.add(country);
@@ -69,10 +64,8 @@ public abstract class CountryDao {
             //Print statement to test output
             System.out.println(countryId + "|" + name);
         }
-
         return allCountries;
     }
-
 
     /**
      * Method not implemented. At this time, project specifications restrict Country objects to read only.
@@ -84,7 +77,6 @@ public abstract class CountryDao {
         return 0;
     }
 
-
     /**
      * Method not implemented. At this time, project specifications restrict Country objects to read only.
      * @param country The Country object to be updated.
@@ -94,7 +86,6 @@ public abstract class CountryDao {
     public static int update(Country country) throws SQLException {
         return 0;
     }
-
 
     /**
      * Method not implemented. At this time, project specifications restrict Country objects to read only.

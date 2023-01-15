@@ -23,7 +23,6 @@ public abstract class ContactDao {
      * @throws SQLException
      */
     public static Contact get(int id) throws SQLException {
-
         Contact contact = null;
         String sql = "SELECT Contact_ID, Contact_Name, Email FROM contacts WHERE Contact_ID = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
@@ -33,7 +32,6 @@ public abstract class ContactDao {
             int contactId = rs.getInt("Contact_Id");
             String contactName = rs.getString("Contact_Name");
             String email = rs.getString("Email");
-
 
             //Print statement to check Object visually
             System.out.println(contactId + "|" + contactName + "|" + email);
@@ -62,7 +60,6 @@ public abstract class ContactDao {
             String contactName = rs.getString("Contact_Name");
             String email = rs.getString("Email");
 
-
             Contact contact = new Contact(contactId, contactName, email);
 
             allContacts.add(contact);
@@ -85,7 +82,6 @@ public abstract class ContactDao {
         return 0;
     }
 
-
     /**
      * Method not implemented. At this time, project specifications restrict Contact objects to read only.
      * @param contact The Contact object to be updated.
@@ -95,7 +91,6 @@ public abstract class ContactDao {
     public static int update(Contact contact) throws SQLException {
         return 0;
     }
-
 
     /**
      * Method not implemented. At this time, project specifications restrict Contact objects to read only.
