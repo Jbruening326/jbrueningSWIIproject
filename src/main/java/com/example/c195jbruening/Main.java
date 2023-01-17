@@ -14,12 +14,20 @@ import java.util.ResourceBundle;
 
 
 //TODO
-//Continue to build DAOs with needed additional methods
 //Do JavaDoc while building
-//Completed All Dao classes
 //Build Helper Classes as needed?
+//Stuck: LoginController Adding Language resource bundle
+//Stuck: MainWindowController adding, Date from LocalDateTime, Adding Time from Local Date time, Adding Contact Name from an Appointment object in the table view
 
 //Complete Section A(1,2,3a,3b,3c,3d,3e,3f)
+    //COMPLETE A.1.1 accepts username and password and provides an appropriate error message
+    //A.1.2 determines the user's location and displays it in a label on the log-in form
+    //A.1.3 displays the log-in form in English or French based on the user's computer language settings to translate
+    // all the text, labels, buttons, and errors on the form
+    //A.1.4  automatically translates error control messages into English or French based on the user's computer
+    // language setting
+
+
 //Complete Section B(lamda)
 //Complete Section C(record login activity)
 //Complete Section D(Javadoc)
@@ -42,11 +50,14 @@ public class Main extends Application {
 
         JDBC.openConnection();
 
-        //launch();
-        ResourceBundle fr = ResourceBundle.getBundle(
-                "helper/LanguageBundle_fr_FR.properties", Locale.getDefault());
-        if (Locale.getDefault().getLanguage().equals("fr"))
-            System.out.println(fr.getString("hello") + " " + fr.getString("world"));
+
+
+        launch();
+        //Instantiate french locale for checking language criteria
+        //Locale french = new Locale("fr", "CA");
+        //ResourceBundle fr = ResourceBundle.getBundle("com.example.c195jbruening.LanguageBundle_fr_CA.properties", french);
+        //System.out.println(french.getLanguage());
+
 
 
         JDBC.closeConnection();

@@ -7,21 +7,28 @@ import javafx.scene.control.*;
 import java.io.IOException;
 
 public class CustomerController {
+    public Label messageLabel;
     public Button saveButton;
     public Button cancelButton;
-    public Label messageLabel;
-    public TextField customerIdTextField;
-    public TextField firstNameTextField;
-    public TextField LastNameTextField;
-    public ComboBox countryComboBox;
-    public ComboBox firstLevelComboBox;
-    public TextField addressTextField;
-    public TextField postTextField;
-    public TextField phoneTextField;
-    public TableView customerTableView;
     public Button deleteButton;
     public RadioButton addRadioButton;
     public RadioButton updateRadioButton;
+    public TextField customerIdTextField;
+    public TextField firstNameTextField;
+    public TextField LastNameTextField;
+    public TextField addressTextField;
+    public TextField postTextField;
+    public TextField phoneTextField;
+    public ComboBox countryComboBox;
+    public ComboBox firstLevelComboBox;
+    public TableView customerTableView;
+    public TableColumn customerIdCol;
+    public TableColumn nameCol;
+    public TableColumn AddressCol;
+    public TableColumn postalCol;
+    public TableColumn phoneCol;
+    public TableColumn countryCol;
+    public TableColumn firstLevelCol;
 
     public void onCountryComboSelection(ActionEvent actionEvent) {
     }

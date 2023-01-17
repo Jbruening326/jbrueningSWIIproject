@@ -1,5 +1,8 @@
 package model;
 
+import dao.ContactDao;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class Appointment {
@@ -108,4 +111,6 @@ public class Appointment {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+
+
 }

@@ -5,6 +5,7 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Contact;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -150,7 +151,6 @@ public abstract class AppointmentDao {
         return ps.executeUpdate();
     }
 
-
     /**
      * This method will delete an appointment record. When this method is called, a selected appointment record will
      * be removed from the appointments table.
@@ -166,4 +166,5 @@ public abstract class AppointmentDao {
 
         return ps.executeUpdate();
     }
+
 }

@@ -8,4 +8,6 @@ module com.example.c195jbruening {
     exports com.example.c195jbruening;
     exports controller;
     opens controller to javafx.fxml;
+    exports model;
+    opens model to javafx.base;
 }
