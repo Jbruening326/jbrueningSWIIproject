@@ -28,7 +28,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="84.0" prefWidth="546.0">
                <children>
-                  <Label fx:id="messageLabel" />
+                  <Label fx:id="messageLabel" textFill="RED" />
                </children>
                <HBox.margin>
                   <Insets left="15.0" />

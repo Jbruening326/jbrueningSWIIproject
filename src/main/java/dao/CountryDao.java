@@ -32,8 +32,6 @@ public abstract class CountryDao {
             int countryId = rs.getInt("Country_ID");
             String name = rs.getString("Country");
 
-            //Print statement to check Object visually
-            System.out.println(countryId + "|" + name);
 
             country = new Country(countryId, name);
         }
@@ -61,8 +59,6 @@ public abstract class CountryDao {
 
             allCountries.add(country);
 
-            //Print statement to test output
-            System.out.println(countryId + "|" + name);
         }
         return allCountries;
     }

@@ -9,13 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.LogInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LogInController">
    <children>
       <HBox alignment="CENTER" layoutX="1.0" layoutY="6.0" prefHeight="80.0" prefWidth="600.0" spacing="100.0">
          <children>
-            <Label text="Appointment System">
+            <Label fx:id="titleLabel" text="Appointment System">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -24,7 +22,7 @@
       </HBox>
       <HBox alignment="BOTTOM_LEFT" layoutX="1.0" layoutY="86.0" prefHeight="35.0" prefWidth="600.0">
          <children>
-            <Label alignment="CENTER" text="Login">
+            <Label fx:id="loginLabel" alignment="CENTER" text="Login">
                <font>
                   <Font size="18.0" />
                </font>
@@ -36,10 +34,10 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="1.0" layoutY="121.0" prefHeight="100.0" prefWidth="600.0" spacing="30.0">
          <children>
-            <Label text="User Name" />
-            <TextField fx:id="userNameTextField"  prefHeight="25.0" prefWidth="190.0" />
-            <Label text="Password" />
-            <TextField fx:id="passwordTextField"  prefHeight="25.0" prefWidth="190.0" />
+            <Label fx:id="userNameLabel" prefHeight="17.0" prefWidth="148.0" text="User Name" />
+            <TextField fx:id="userNameTextField" prefHeight="25.0" prefWidth="111.0" />
+            <Label fx:id="passwordLabel" prefHeight="17.0" prefWidth="131.0" text="Password" />
+            <TextField fx:id="passwordTextField" prefHeight="25.0" prefWidth="92.0" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />
@@ -55,9 +53,9 @@
          </padding>
       </HBox>
       <Label fx:id="zoneIdLabel" layoutX="21.0" layoutY="269.0" text="ZoneID" />
-      <VBox alignment="CENTER" layoutX="177.0" layoutY="252.0" prefHeight="35.0" prefWidth="245.0">
+      <VBox alignment="CENTER" layoutX="102.0" layoutY="252.0" prefHeight="35.0" prefWidth="401.0">
          <children>
-            <Label fx:id="errorLabel" />
+            <Label fx:id="errorLabel" textFill="RED" />
          </children>
       </VBox>
    </children>

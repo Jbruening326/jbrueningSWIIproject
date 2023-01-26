@@ -33,8 +33,6 @@ public abstract class ContactDao {
             String contactName = rs.getString("Contact_Name");
             String email = rs.getString("Email");
 
-            //Print statement to check Object visually
-            System.out.println(contactId + "|" + contactName + "|" + email);
 
             contact = new Contact(contactId, contactName, email);
         }
@@ -64,8 +62,6 @@ public abstract class ContactDao {
 
             allContacts.add(contact);
 
-            //Print statement to test output
-            System.out.println(contactId + "|" + contactName + "|" + email);
         }
 
         return allContacts;

@@ -70,7 +70,7 @@
                       <Label text="Address" GridPane.rowIndex="3" />
                       <Label text="Postal Code" GridPane.rowIndex="4" />
                       <TextField fx:id="firstNameTextField" promptText="Enter Title" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <TextField fx:id="LastNameTextField" promptText="Enter Description" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <TextField fx:id="lastNameTextField" promptText="Enter Description" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                       <Label text="Phone Number" GridPane.rowIndex="5" />
                       <Label text="Country" GridPane.rowIndex="6" />
                       <ComboBox fx:id="countryComboBox" onAction="#onCountryComboSelection" prefWidth="150.0" promptText="SELECT A COUNTRY" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="6" />
@@ -88,7 +88,7 @@
                      <columns>
                         <TableColumn fx:id="customerIdCol" text="Customer ID" />
                         <TableColumn fx:id="nameCol" prefWidth="72.0" text="Name" />
-                        <TableColumn fx:id="AddressCol" prefWidth="65.0" text="Address" />
+                        <TableColumn fx:id="addressCol" prefWidth="65.0" text="Address" />
                         <TableColumn fx:id="postalCol" prefWidth="75.0" text="Postal Code" />
                         <TableColumn fx:id="phoneCol" prefWidth="77.0" text="Phone" />
                         <TableColumn fx:id="countryCol" prefWidth="77.0" text="Country" />

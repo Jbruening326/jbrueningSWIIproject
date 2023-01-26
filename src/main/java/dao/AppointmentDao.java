@@ -5,7 +5,6 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
-import model.Contact;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,10 +46,6 @@ public abstract class AppointmentDao {
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
 
-            //Print statement to check Object visually
-            System.out.println(appointmentId + "|" + title + "|" + description + "|" + location + "|"
-            + type + "|" + start + "|" + end + "|" + customerId + "|" + userId + "|" + contactId);
-
              appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
         }
         return appointment;
@@ -88,9 +83,6 @@ public abstract class AppointmentDao {
 
             allAppointments.add(appointment);
 
-            //Print statement to test output
-            System.out.println(appointmentId + "|" + title + "|" + description + "|" + location + "|"
-                    + type + "|" + start + "|" + end + "|" + customerId + "|" + userId + "|" + contactId);
         }
 
         return allAppointments;

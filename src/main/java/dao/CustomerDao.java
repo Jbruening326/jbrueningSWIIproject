@@ -41,10 +41,6 @@ public abstract class CustomerDao {
             String phone = rs.getString("Phone");
             int divisionId = rs.getInt("Division_ID");
 
-            //Print statement to check Object visually
-            System.out.println(customerId + "|" + customerName + "|" + address   + "|" + postalCode + "|"
-                    + phone + "|" + divisionId);
-
             customer = new Customer(customerId, customerName, address, postalCode, phone, divisionId);
         }
         return customer;
@@ -76,9 +72,6 @@ public abstract class CustomerDao {
 
             allCustomers.add(customer);
 
-            //Print statement to test output
-            System.out.println(customerId + "|" + customerName + "|" + address   + "|" + postalCode + "|"
-                    + phone + "|" + divisionId);
         }
         return allCustomers;
     }

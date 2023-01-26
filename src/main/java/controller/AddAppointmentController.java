@@ -1,7 +1,10 @@
 package controller;
-
 import dao.AppointmentDao;
+import dao.ContactDao;
+import dao.CustomerDao;
+import dao.UserDao;
 import helper.ControllerHelper;
+import helper.Utilities;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -13,6 +16,7 @@ import model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -36,7 +40,7 @@ public class AddAppointmentController implements Initializable {
 
 
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle)  {
         //Prefill location combobox list
         ObservableList<String> locations = locationComboBox.getItems();
         locations.add("Coffee Shop");
@@ -46,45 +50,93 @@ public class AddAppointmentController implements Initializable {
 
         //Prefill type combobox list
         ObservableList<String> types = typeComboBox.getItems();
-        types.add("Panning Session");
+        types.add("Planning Session");
         types.add("De-Briefing");
         types.add("Building");
         types.add("Execution");
         types.add("Project Close");
 
-        //Prefill start time
-        ObservableList<LocalTime> startTimes = startTimeComboBox.getItems();
-        startTimes.add(LocalTime.of(8,0));
 
-        //Prefill end time
-        ObservableList<LocalTime> endTimes = endTimeComboBox.getItems();
-        endTimes.add(LocalTime.of(9, 0));
+        //Prefill Contact ComboBox
+        contactComboBox.getItems();
+        try {
+            contactComboBox.setItems(ContactDao.getAll());
+        }
+        catch (SQLException e) {
+            messageLabel.setText("There are currently no contacts or something else went wrong");
+            throw new RuntimeException(e);
+        }
+
+        //Prefill Customer ComboBox
+        customerComboBox.getItems();
+        try {
+            customerComboBox.setItems(CustomerDao.getAll());
+        }
+        catch (SQLException e) {
+            messageLabel.setText("There are currently no customers or something else went wrong");
+            throw new RuntimeException(e);
+        }
+
+        //Prefill User ComboBox
+        userComboBox.getItems();
+        try {
+            userComboBox.setItems(UserDao.getAll());
+        }
+        catch (SQLException e) {
+            messageLabel.setText("something else went wrong");
+            throw new RuntimeException(e);
+        }
+
+        //Prefill startTimeComboBox
+        startTimeComboBox.getItems();
+        startTimeComboBox.setItems(Utilities.getAppointmentTimes());
+        //Prefill endTimeComboBox
+        endTimeComboBox.getItems();
+        endTimeComboBox.setItems(Utilities.getAppointmentTimes());
 
     }
 
-
     public void onSaveButtonClick(ActionEvent actionEvent) throws Exception {
-        String title = titleTextField.getText();
-        String description = descTextField.getText();
-        String location = String.valueOf(locationComboBox.getValue());
-        String contact = String.valueOf(contactComboBox.getValue());
-        String type = String.valueOf(typeComboBox.getValue());
-        LocalDate date = datePicker.getValue();
-        LocalTime start = startTimeComboBox.getValue();
-        LocalTime end = endTimeComboBox.getValue();
-        String customer = String.valueOf(customerComboBox.getValue());
-        String user = String.valueOf(userComboBox.getValue());
+       try {
+           String title = titleTextField.getText();
+           String description = descTextField.getText();
+           String location = String.valueOf(locationComboBox.getValue());
+           int contact = contactComboBox.getValue().getContactID();
+           String type = String.valueOf(typeComboBox.getValue());
+           LocalDate date = datePicker.getValue();
+           LocalTime start = startTimeComboBox.getValue();
+           LocalTime end = endTimeComboBox.getValue();
+           int customer = customerComboBox.getValue().getCustomerId();
+           int user = userComboBox.getValue().getUserId();
 
-        LocalDateTime startDateTime = LocalDateTime.of(date, start);
-        LocalDateTime endDateTime = LocalDateTime.of(date, end);
+           LocalDateTime startDateTime = LocalDateTime.of(date, start);
+           LocalDateTime endDateTime = LocalDateTime.of(date, end);
 
-        Appointment appointment = new Appointment(0, title, description, location, type, startDateTime, endDateTime, 1, 1, 1);
+           System.out.println(title + "|" + description + "|" + location + "|" + contact + "|" + type + "|" + date + "|" + start + "|" + end + "|" + customer + "|" + user);
 
-        AppointmentDao.insert(appointment);
+           if (title.isEmpty() || title.isBlank() || description.isBlank() || description.isEmpty() ||
+                   locationComboBox.getValue() == null || typeComboBox.getValue() == null ||
+                   startTimeComboBox.getValue() == null || endTimeComboBox.getValue() == null){
+               messageLabel.setText("Please make all field are completed");
+           }
+           else if(start.isAfter(end)){
+               messageLabel.setText("'End Time' cannot be before 'Start Time'");
+           }
+           else if(date.isBefore(LocalDate.now())){
+               messageLabel.setText("Cannot schedule appointment in the past");
+           }
+           else {
+               Appointment appointment = new Appointment(0, title, description, location, type, startDateTime, endDateTime, customer, user, contact);
+               AppointmentDao.insert(appointment);
+               ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
+           }
+       }
+       catch(Exception e){
+           messageLabel.setText("All fields must be completed and text fields cannot exceed 50 characters");
+       }
 
 
 
-        ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }
 
     public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {

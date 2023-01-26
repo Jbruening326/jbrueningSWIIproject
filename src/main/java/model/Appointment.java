@@ -1,9 +1,14 @@
 package model;
 
 import dao.ContactDao;
+import dao.CustomerDao;
+import dao.UserDao;
+import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Appointment {
     private int appointmentId;
@@ -112,5 +117,30 @@ public class Appointment {
         this.contactId = contactId;
     }
 
+    public String getContactName() throws SQLException{
+        return ContactDao.get(contactId).getName();
+    }
+    public Contact getContact() throws SQLException{
+        return ContactDao.get(contactId);
+    }
+    public Customer getCustomer() throws SQLException {
+        return CustomerDao.get(customerId);
+    }
+
+    public User getUser() throws SQLException{
+        return UserDao.get(userId);
+    }
+
+    public LocalDate getLocalDate() {
+        return startDateTime.toLocalDate();
+    }
+
+    public LocalTime getStartTime() {
+        return startDateTime.toLocalTime();
+    }
+
+    public LocalTime getEndTime() {
+        return endDateTime.toLocalTime();
+    }
 
 }

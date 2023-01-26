@@ -2,22 +2,30 @@ package com.example.c195jbruening;
 
 
 import helper.JDBC;
+import helper.Utilities;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
+
+
 //TODO
+//Finishing AddAppointment Controller, and UpdateAppointment Controller. Just need to JavaDoc
+//Next work on Customers controller
+//Login controller complete. still need to check a change in ZoneID.
+
 //Do JavaDoc while building
 //Build Helper Classes as needed?
-//Stuck: LoginController Adding Language resource bundle
-//Stuck: MainWindowController adding, Date from LocalDateTime, Adding Time from Local Date time, Adding Contact Name from an Appointment object in the table view
 
 //Complete Section A(1,2,3a,3b,3c,3d,3e,3f)
     //COMPLETE A.1.1 accepts username and password and provides an appropriate error message
@@ -36,7 +44,7 @@ import java.util.ResourceBundle;
 //Remove the throw statement in the Main.java after done testing
 
 
-public class Main extends Application {
+public class Main extends Application implements Initializable {
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -46,17 +54,38 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws SQLException{
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        Utilities.getLocale().getLanguage();
+    }
+
+    public static void main(String[] args) {
 
         JDBC.openConnection();
 
 
+        //Locale france = new Locale("fr", "CA");
+        //Locale.setDefault(france);
+
+        //ZoneId.getAvailableZoneIds().stream().sorted().forEach(System.out::println);
+
+
 
         launch();
+        System.out.println(Utilities.getAppointmentTimes());
         //Instantiate french locale for checking language criteria
-        //Locale french = new Locale("fr", "CA");
-        //ResourceBundle fr = ResourceBundle.getBundle("com.example.c195jbruening.LanguageBundle_fr_CA.properties", french);
-        //System.out.println(french.getLanguage());
+
+        /*Locale france = new Locale("fr", "CA");
+        ResourceBundle fr = ResourceBundle.getBundle("Languages", france);
+
+
+        if(Locale.getDefault().getLanguage().equals("fr")){
+           System.out.println(france.getLanguage());
+           System.out.println(fr.getString("hello") + " " + fr.getString("world"));
+        }
+        else{
+            System.out.println("Language not supported");
+        }*/
+
 
 
 

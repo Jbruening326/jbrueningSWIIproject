@@ -70,5 +70,10 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
+    @Override
+    public String toString(){
+        return(Integer.toString(customerId) + " " + customerName);
+    }
+
 
 }

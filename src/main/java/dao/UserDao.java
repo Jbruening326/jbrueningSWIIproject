@@ -32,9 +32,6 @@ public abstract class UserDao {
             String userName = rs.getString("User_Name");
             String password = rs.getString("Password");
 
-            //Print statement to check Object visually
-            System.out.println(userId + "|" + userName + "|" + password);
-
             User user = new User(userId, userName, password);
             return user;
         }
@@ -58,8 +55,6 @@ public abstract class UserDao {
             String userName = rs.getString("User_Name");
             String password = rs.getString("Password");
 
-            //Print statement to check Object visually
-            System.out.println(userId + "|" + userName + "|" + password);
 
             User user = new User(userId, userName, password);
 

@@ -34,9 +34,6 @@ public abstract class FirstLevelDivisionDao {
             String division = rs.getString("Division");
             int countryId = rs.getInt("Country_ID");
 
-            //Print statement to check Object visually
-            System.out.println(divisionId + "|" + division + "|" + countryId);
-
             firstDivision = new FirstLevelDivision(divisionId, division, countryId);
         }
         return firstDivision;
@@ -64,8 +61,6 @@ public abstract class FirstLevelDivisionDao {
 
             allDivisions.add(firstDivision);
 
-            //Print statement to test output
-            System.out.println(divisionId + "|" + division + "|" + countryId);
         }
         return allDivisions;
     }
