@@ -118,6 +118,7 @@ public class MainWindowController implements Initializable{
      * @param resourceBundle
      */
     public void initialize(URL url, ResourceBundle resourceBundle){
+
         try {
             appointmentsTableView.setItems(AppointmentDao.getAll());
             appIdCol.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
@@ -136,16 +137,37 @@ public class MainWindowController implements Initializable{
         catch(Exception e){
             messageLabel.setText("There are currently no appointments");
             System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
         }
     }
 
-    /**
-     * This method will filter all appointments by week. When the radio button is fired, the tableview will be changed
-     * to display all appointments within the next 7 days.
-     * @param actionEvent
-     * @throws SQLException
-     */
+    public void previewAppointments() throws SQLException{
+        try {
+            ObservableList<Appointment> allAppointments = AppointmentDao.getAll();
+
+            LocalDateTime rightNow = LocalDateTime.now();
+            for (Appointment appointment : allAppointments){
+                if(rightNow.isBefore(appointment.getStartDateTime())
+                        && !appointment.getStartDateTime().isAfter(rightNow.plusMinutes(16))){
+                    ControllerHelper.messageDisplay("Upcoming Appointment", appointment.getTitle() +
+                            " appointment at " + String.valueOf(appointment.getStartDateTime()) + " starts soon!");
+                }
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+
+
+
+        /**
+         * This method will filter all appointments by week. When the radio button is fired, the tableview will be changed
+         * to display all appointments within the next 7 days.
+         * @param actionEvent
+         * @throws SQLException
+         */
     public void onWeekViewRadioButton(ActionEvent actionEvent) throws SQLException {
         messageLabel.setText(null);
         ObservableList<Appointment> weeklyAppointments = Utilities.filterAppointments(LocalDateTime.now().plusDays(7));
@@ -245,7 +267,6 @@ public class MainWindowController implements Initializable{
         else {
             messageLabel.setText("Please make a selection");
         }
-
     }
 
     /**

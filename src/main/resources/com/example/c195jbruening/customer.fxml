@@ -32,14 +32,14 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="724.0">
                     <children>
-                        <Label fx:id="messageLabel" />
+                        <Label fx:id="messageLabel" textFill="RED" />
                     </children>
                     <HBox.margin>
                         <Insets left="15.0" />
                     </HBox.margin>
                 </HBox>
                 <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
-                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" text="Cancel" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClick" text="Back" />
             </children>
             <padding>
                 <Insets right="15.0" />
@@ -64,21 +64,19 @@
                   </rowConstraints>
                   <children>
                       <Label prefHeight="17.0" prefWidth="98.0" text="Customer ID" />
-                      <Label text="First Name" GridPane.rowIndex="1" />
-                      <Label text="Last Name" GridPane.rowIndex="2" />
+                      <Label text="Name" GridPane.rowIndex="1" />
                       <TextField fx:id="customerIdTextField" disable="true" editable="false" prefHeight="25.0" prefWidth="151.0" promptText="Auto-Generated" GridPane.columnIndex="1" />
-                      <Label text="Address" GridPane.rowIndex="3" />
-                      <Label text="Postal Code" GridPane.rowIndex="4" />
-                      <TextField fx:id="firstNameTextField" promptText="Enter Title" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <TextField fx:id="lastNameTextField" promptText="Enter Description" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                      <Label text="Phone Number" GridPane.rowIndex="5" />
-                      <Label text="Country" GridPane.rowIndex="6" />
-                      <ComboBox fx:id="countryComboBox" onAction="#onCountryComboSelection" prefWidth="150.0" promptText="SELECT A COUNTRY" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                      <ComboBox fx:id="firstLevelComboBox" prefWidth="150.0" promptText="SELECT COUNTRY FIRST" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <TextField fx:id="addressTextField" promptText="Enter Address" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="postTextField" promptText="Enter Postal Code" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="phoneTextField" promptText="Enter Phone" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label text="State/Province/Territory" GridPane.rowIndex="7" />
+                      <Label text="Address" GridPane.rowIndex="2" />
+                      <Label text="Postal Code" GridPane.rowIndex="3" />
+                      <TextField fx:id="nameTextField" promptText="Enter Title" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <Label text="Phone Number" GridPane.rowIndex="4" />
+                      <Label text="Country" GridPane.rowIndex="5" />
+                      <ComboBox fx:id="countryComboBox" onAction="#onCountryComboSelection" prefWidth="150.0" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                      <ComboBox fx:id="firstLevelComboBox" prefHeight="25.0" prefWidth="211.0" promptText="SELECT COUNTRY FIRST" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="addressTextField" promptText="Enter Address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="postTextField" promptText="Enter Postal Code" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="phoneTextField" promptText="Enter Phone" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="State/Province/Territory" GridPane.rowIndex="6" />
                   </children>
               </GridPane>
             <VBox prefHeight="372.0" prefWidth="556.0" spacing="10.0">
@@ -87,8 +85,8 @@
                   <TableView fx:id="customerTableView" prefHeight="245.0" prefWidth="487.0">
                      <columns>
                         <TableColumn fx:id="customerIdCol" text="Customer ID" />
-                        <TableColumn fx:id="nameCol" prefWidth="72.0" text="Name" />
-                        <TableColumn fx:id="addressCol" prefWidth="65.0" text="Address" />
+                        <TableColumn fx:id="nameCol" prefWidth="83.0" text="Name" />
+                        <TableColumn fx:id="addressCol" prefWidth="54.0" text="Address" />
                         <TableColumn fx:id="postalCol" prefWidth="75.0" text="Postal Code" />
                         <TableColumn fx:id="phoneCol" prefWidth="77.0" text="Phone" />
                         <TableColumn fx:id="countryCol" prefWidth="77.0" text="Country" />

@@ -142,6 +142,12 @@ public class UpdateAppointmentController implements Initializable {
             else if(date.isBefore(LocalDate.now())){
                 messageLabel.setText("Cannot schedule appointment in the past");
             }
+            else if(Utilities.toTargetTime(startDateTime).isBefore(LocalDateTime.of(date, LocalTime.of(8, 00)))){
+                messageLabel.setText("Start time not within business hours of 8 am - 10 pm EST");
+            }
+            else if (Utilities.toTargetTime(endDateTime).isAfter(LocalDateTime.of(date, LocalTime.of(22, 00)))) {
+                messageLabel.setText(("End time not within business hours of 8 am - 10 pm EST"));
+            }
             else {
                 Appointment appointment = new Appointment(appointmentId, title, description, location, type, startDateTime, endDateTime, customer, user, contact);
                 AppointmentDao.update(appointment);

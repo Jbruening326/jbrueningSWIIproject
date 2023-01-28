@@ -1,8 +1,12 @@
 package model;
 
 import dao.AppointmentDao;
+import dao.CountryDao;
+import dao.FirstLevelDivisionDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.sql.SQLException;
 
 public class Customer {
     private int customerId;
@@ -68,6 +72,14 @@ public class Customer {
 
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
+    }
+
+    public Country getCountry() throws SQLException {
+        int countryId = FirstLevelDivisionDao.get(divisionId).getCountryId();
+        return CountryDao.get(countryId);
+    }
+    public FirstLevelDivision getDivision() throws SQLException{
+        return FirstLevelDivisionDao.get(divisionId);
     }
 
     @Override

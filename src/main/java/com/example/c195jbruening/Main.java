@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -20,28 +21,14 @@ import java.util.ResourceBundle;
 
 
 //TODO
-//Finishing AddAppointment Controller, and UpdateAppointment Controller. Just need to JavaDoc
-//Next work on Customers controller
-//Login controller complete. still need to check a change in ZoneID.
-
-//Do JavaDoc while building
-//Build Helper Classes as needed?
-
-//Complete Section A(1,2,3a,3b,3c,3d,3e,3f)
-    //COMPLETE A.1.1 accepts username and password and provides an appropriate error message
-    //A.1.2 determines the user's location and displays it in a label on the log-in form
-    //A.1.3 displays the log-in form in English or French based on the user's computer language settings to translate
-    // all the text, labels, buttons, and errors on the form
-    //A.1.4  automatically translates error control messages into English or French based on the user's computer
-    // language setting
-
-
-//Complete Section B(lamda)
-//Complete Section C(record login activity)
-//Complete Section D(Javadoc)
-//Complete Section E(README.txt)
-//Complete Section F(proofread)
-//Remove the throw statement in the Main.java after done testing
+//Reports Controll
+//Complete the time overlap
+//Add the Lamdas
+//JavaDoc
+//Record Login Avtivity
+//README.txt
+//proofread. remove any funky statements and unused imports
+//check everything in the VM
 
 
 public class Main extends Application implements Initializable {
@@ -71,7 +58,8 @@ public class Main extends Application implements Initializable {
 
 
         launch();
-        System.out.println(Utilities.getAppointmentTimes());
+
+        //System.out.println(Utilities.toTargetTime(LocalDateTime.now()));
         //Instantiate french locale for checking language criteria
 
         /*Locale france = new Locale("fr", "CA");

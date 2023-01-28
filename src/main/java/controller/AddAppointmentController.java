@@ -17,9 +17,12 @@ import model.User;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
@@ -97,6 +100,8 @@ public class AddAppointmentController implements Initializable {
     }
 
     public void onSaveButtonClick(ActionEvent actionEvent) throws Exception {
+
+
        try {
            String title = titleTextField.getText();
            String description = descTextField.getText();
@@ -117,13 +122,19 @@ public class AddAppointmentController implements Initializable {
            if (title.isEmpty() || title.isBlank() || description.isBlank() || description.isEmpty() ||
                    locationComboBox.getValue() == null || typeComboBox.getValue() == null ||
                    startTimeComboBox.getValue() == null || endTimeComboBox.getValue() == null){
-               messageLabel.setText("Please make all field are completed");
+               messageLabel.setText("Please make sure all field are completed");
            }
-           else if(start.isAfter(end)){
+           else if(startDateTime.isAfter(endDateTime)){
                messageLabel.setText("'End Time' cannot be before 'Start Time'");
            }
            else if(date.isBefore(LocalDate.now())){
                messageLabel.setText("Cannot schedule appointment in the past");
+           }
+            else if(Utilities.toTargetTime(startDateTime).isBefore(LocalDateTime.of(date, LocalTime.of(8, 00)))){
+                messageLabel.setText("Start time not within business hours of 8 am - 10 pm EST");
+           }
+            else if (Utilities.toTargetTime(endDateTime).isAfter(LocalDateTime.of(date, LocalTime.of(22, 00)))){
+                messageLabel.setText(("End time not within business hours of 8 am - 10 pm EST"));
            }
            else {
                Appointment appointment = new Appointment(0, title, description, location, type, startDateTime, endDateTime, customer, user, contact);

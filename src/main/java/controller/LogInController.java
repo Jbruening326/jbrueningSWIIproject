@@ -5,6 +5,7 @@ import helper.ControllerHelper;
 import helper.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -108,6 +109,10 @@ public class LogInController implements Initializable {
         if (UserDao.get(userName) != null) {
             if (password.equals(UserDao.get(userName).getPassword())){
                 ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
+
+                FXMLLoader fxmlLoader = ControllerHelper.getFxmlLoader();
+                MainWindowController MWController = fxmlLoader.getController();
+                MWController.previewAppointments();
             }
             else {
                 errorLabel.setText(wrongPassword);

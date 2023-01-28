@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Locale;
 
 
@@ -24,11 +21,6 @@ public abstract class Utilities {
         return Locale.getDefault();
     }
 
-    /*public static LocalDateTime convertEstToLocal(){
-        ZonedDateTime
-        ZonedDateTime newZoneDateTime = localTime.atZone(ZoneId.systemDefault());
-        newZoneDateTime.toLocalD
-    }*/
 
     public static ObservableList<Appointment> filterAppointments(LocalDateTime end) throws SQLException {
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
@@ -45,17 +37,30 @@ public abstract class Utilities {
     public static ObservableList<LocalTime> getAppointmentTimes(){
         ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
 
-        //Set the times for EST then return the list for local time?
-        LocalTime start = LocalTime.of(8, 00);
-        LocalTime end = LocalTime.of(21, 45);
+        LocalTime start = LocalTime.of(0, 00);
+        LocalTime end = LocalTime.of(23, 45);
+
+
 
         while(start.isBefore(end)){
             appointmentTimes.add(start);
             start = start.plusMinutes(15);
         }
+        appointmentTimes.add(LocalTime.of(23, 45));
 
         return appointmentTimes;
     }
+
+    public static LocalDateTime toTargetTime(LocalDateTime originTime){
+
+        ZonedDateTime origin = originTime.atZone(ZoneId.systemDefault());
+        ZonedDateTime target = origin.withZoneSameInstant(ZoneId.of("America/New_York"));
+
+        return target.toLocalDateTime();
+
+
+    }
+
 
 
 }
