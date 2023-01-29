@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 
 //TODO
-//Reports Controll
+//Reports Controller
 //Complete the time overlap
 //Add the Lamdas
 //JavaDoc

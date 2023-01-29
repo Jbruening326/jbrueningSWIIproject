@@ -58,9 +58,31 @@ public abstract class Utilities {
 
         return target.toLocalDateTime();
 
-
     }
 
+    public static boolean isOverlapped(int cId2, int aId2,  LocalDateTime s2, LocalDateTime e2) throws SQLException{
+        boolean isOverlapped = false;
 
+        for(Appointment a : AppointmentDao.getAll()){
+            int cId1 = a.getCustomerId();
+            int aId1 = a.getAppointmentId();
+            LocalDateTime s1 = a.getStartDateTime();
+            LocalDateTime e1 = a.getEndDateTime();
 
+            if(aId2 != aId1 ){
+                if(cId2 == cId1){
+                    if((s2.isAfter(s1) || s2.isEqual(s1)) && (s2.isBefore(e1))){
+                        isOverlapped = true;
+                    }
+                    else if((e2.isAfter(s1)) && (e2.isBefore(e1) || e2.isEqual(e1))){
+                        isOverlapped = true;
+                    }
+                    else if((s2.isBefore(s1) || s2.isEqual(s1))&&(e2.isAfter(e1) || e2.isEqual(e1))){
+                        isOverlapped = true;
+                    }
+                }
+            }
+        }
+        return isOverlapped;
+    }
 }

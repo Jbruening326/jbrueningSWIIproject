@@ -148,6 +148,9 @@ public class UpdateAppointmentController implements Initializable {
             else if (Utilities.toTargetTime(endDateTime).isAfter(LocalDateTime.of(date, LocalTime.of(22, 00)))) {
                 messageLabel.setText(("End time not within business hours of 8 am - 10 pm EST"));
             }
+            else if (Utilities.isOverlapped(customer, appointmentId, startDateTime, endDateTime)){
+                messageLabel.setText("Customer with ID: " + customer + " has a scheduling conflict. Please fix times");
+            }
             else {
                 Appointment appointment = new Appointment(appointmentId, title, description, location, type, startDateTime, endDateTime, customer, user, contact);
                 AppointmentDao.update(appointment);

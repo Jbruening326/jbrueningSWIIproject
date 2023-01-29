@@ -117,6 +117,8 @@ public class AddAppointmentController implements Initializable {
            LocalDateTime startDateTime = LocalDateTime.of(date, start);
            LocalDateTime endDateTime = LocalDateTime.of(date, end);
 
+
+
            System.out.println(title + "|" + description + "|" + location + "|" + contact + "|" + type + "|" + date + "|" + start + "|" + end + "|" + customer + "|" + user);
 
            if (title.isEmpty() || title.isBlank() || description.isBlank() || description.isEmpty() ||
@@ -135,6 +137,9 @@ public class AddAppointmentController implements Initializable {
            }
             else if (Utilities.toTargetTime(endDateTime).isAfter(LocalDateTime.of(date, LocalTime.of(22, 00)))){
                 messageLabel.setText(("End time not within business hours of 8 am - 10 pm EST"));
+           }
+            else if (Utilities.isOverlapped(customer, 0, startDateTime, endDateTime)){
+                messageLabel.setText("Customer with ID: " + customer + " has a scheduling conflict. Please fix times");
            }
            else {
                Appointment appointment = new Appointment(0, title, description, location, type, startDateTime, endDateTime, customer, user, contact);
