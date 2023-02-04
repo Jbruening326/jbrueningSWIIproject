@@ -3,11 +3,9 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import static helper.JDBC.connection;
 
 /**
@@ -97,4 +95,6 @@ public abstract class ContactDao {
     public static int delete(Contact contact) throws SQLException {
         return 0;
     }
+
+
 }

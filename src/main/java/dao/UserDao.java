@@ -3,7 +3,6 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.User;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,8 +64,6 @@ public abstract class UserDao {
     }
 
 
-
-
     /**
      * This method retrieves all user records. When this method is called, all records from the users
      * table will be returned.
@@ -89,8 +86,6 @@ public abstract class UserDao {
 
             allUsers.add(user);
 
-            //Print statement to test output
-            System.out.println(userId + "|" + userName + "|" + password);
         }
         return allUsers;
     }

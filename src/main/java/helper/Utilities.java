@@ -5,42 +5,88 @@ import dao.AppointmentDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
-
+import java.io.*;
 import java.sql.SQLException;
 import java.time.*;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 
+/**
+ * This abstract class contains methods to assist with application functionalities. Author: Joseph Bruening.
+ * Credits: Mkyong and Juan Ruiz for "filterAppointments" method snippets.
+ */
 public abstract class Utilities {
-
+    /**
+     * This method is used to obtain a ZoneID. When this method is called a ZoneId of the user will be returned.
+     * @return Returns the user's ZoneID
+     */
     public static ZoneId getZoneId(){
         return ZoneId.systemDefault();
-    }
+    }//Not used at this time
 
+    /**
+     * This method is used to get the Local of the user. When this method is called,
+     * the default Local of the user application is returned
+     * @return Returns the default Local of the user of the application
+     */
     public static Locale getLocale(){
         return Locale.getDefault();
     }
 
 
-    public static ObservableList<Appointment> filterAppointments(LocalDateTime end) throws SQLException {
+    /**
+     * This method is used to filter appointment for a custom display. When this method is called, a passed start and
+     * local date time is used to create a customer list of appointments based on the arguments.
+     * This method uses lambdas. The lambda in this method will place the Observable list in a stream which will and
+     * filter out specific appointment that fall within a specified time frame and collects the results back into the Observable list.
+     * This lambda allows for a faster approach to filtering appointments by removing everything you don't want to have in the list.
+     * The longer approach would include a for loop with a conditional statement that adds appointments to the list based on
+     * desired appointment window. Credit snippets of code to MKyong, and Juan Ruiz.
+     * @param start
+     * @param end
+     * @return
+     * @throws SQLException
+     */
+    public static ObservableList<Appointment> filterAppointments(LocalDateTime start, LocalDateTime end) throws SQLException{
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
-        for(Appointment appointment : AppointmentDao.getAll()){
-            if(appointment.getStartDateTime().isAfter(LocalDateTime.now().minusDays(1))
-                    && appointment.getStartDateTime().isBefore(end)){
-                filteredAppointments.add(appointment);
-            }
-        }
+        filteredAppointments = AppointmentDao.getAll().stream()
+                .filter(a -> !a.getStartDateTime().isBefore(start)
+                        && !a.getStartDateTime().isAfter(end))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+
         return filteredAppointments;
     }
 
+
+    /**
+     * This method is used to pre-populate approved appointment types. When this method is called the list of pre-approved
+     * appointment types will be returned.
+     * @return Returns the list of appointment types
+     */
+    public static ObservableList<String> getAppointmentTypes(){
+        ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
+
+        appointmentTypes.add("Planning Session");
+        appointmentTypes.add("De-Briefing");
+        appointmentTypes.add("Building");
+        appointmentTypes.add("Execution");
+        appointmentTypes.add("Project Close");
+
+        return appointmentTypes;
+    }
+
+    /**
+     * This method is used to create a list of appointment times. When this method is called the list of appointment
+     * times will be returned.
+     * @return Returns the list of appointment times.
+     */
     public static ObservableList<LocalTime> getAppointmentTimes(){
         ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
 
         LocalTime start = LocalTime.of(0, 00);
         LocalTime end = LocalTime.of(23, 45);
-
-
 
         while(start.isBefore(end)){
             appointmentTimes.add(start);
@@ -51,6 +97,12 @@ public abstract class Utilities {
         return appointmentTimes;
     }
 
+    /**
+     * This method will be used to convert LocalTime to Eastern Standard Time(EST). When this method is called,
+     * a LocalDateTime object will be converted to the LocalDateTime of EST which will be returned.
+     * @param originTime The LocalDateTime object which will be converted
+     * @return Returns the LocalDateTime in EST
+     */
     public static LocalDateTime toTargetTime(LocalDateTime originTime){
 
         ZonedDateTime origin = originTime.atZone(ZoneId.systemDefault());
@@ -60,6 +112,16 @@ public abstract class Utilities {
 
     }
 
+    /**
+     * This method is used to assess for overlaps in LocalDateTimeObjects. When this method is called, passed arguments
+     * are usd to check if two appointment times are overlapped and will return true or false based on the conditions.
+     * @param cId2 The contactId of an appointment to be assessed
+     * @param aId2 The appointmentId of an appointment to be assessed
+     * @param s2 The StartDateTime of an appointment to be assessed
+     * @param e2 The EndDateTime of an appointment to be assessed
+     * @return Returns false if no overlaps occur. Returns ture is overlaps are present
+     * @throws SQLException
+     */
     public static boolean isOverlapped(int cId2, int aId2,  LocalDateTime s2, LocalDateTime e2) throws SQLException{
         boolean isOverlapped = false;
 
@@ -84,5 +146,19 @@ public abstract class Utilities {
             }
         }
         return isOverlapped;
+    }
+
+
+    /**
+     * This method is used to append PrintWriter object. When this method is called a passed file name is appended with
+     * the message of a passed String object.
+     * @param fileName The file name to be appended
+     * @param message The message to append the file with
+     */
+    public static void loginActivity (PrintWriter fileName, String message){
+
+
+        fileName.println(message);
+        fileName.close();
     }
 }

@@ -13,34 +13,39 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.User;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * This class is a controller for the login form.
+ * This class is a controller for the "logIn.fxml" form. Author: Joseph Bruening
  */
 public class LogInController implements Initializable {
     /**
-     * Creates a TextField object for a user name to be entered
+     * Creates a TextField object
      */
     public TextField userNameTextField;
     /**
-     * Creates a TextField object for a password to be entered
+     * Creates a TextField object
      */
     public TextField passwordTextField;
     /**
-     * Creates a Button object for a Login button
+     * Creates a login Button object
      */
     public Button loginButton;
     /**
-     * Creates a Button object for an Exit button
+     * Creates an exit Button object
      */
     public Button exitButton;
     /**
-     * Creates a Label object for the ZoneID to be displayed
+     * Creates a Label object to display the ZoneId
      */
     public Label zoneIdLabel;
     /**
@@ -65,12 +70,13 @@ public class LogInController implements Initializable {
     public Label passwordLabel;
 
     //Will be used on errorLabel based on user inputs.
+
     private String wrongPassword = "Please enter a valid password";
     private String wrongLogin = "Please enter a valid user name and password";
 
     /**
-     * This method initializes the login form. When the login form is opened, text values are changed to French based on the
-     * users Locale.
+     * This method initializes the "logIn.fxml: form. When the login form is loaded,
+     * text values are changed to French based on the users Locale.
      * @param url
      * @param resourceBundle
      */
@@ -97,7 +103,7 @@ public class LogInController implements Initializable {
     }
 
     /**
-     * This method logs a user into system. When the user interacts with the login button, the user will gain access
+     * This method logs a user into the system. When the user interacts with the login button, the user will gain access
      * to the system if certain fields are correct.
      * @param actionEvent
      * @throws Exception
@@ -105,9 +111,18 @@ public class LogInController implements Initializable {
     public void onLoginClick(ActionEvent actionEvent) throws Exception {
         String userName = userNameTextField.getText();
         String password = passwordTextField.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String loginTime = LocalDateTime.now().format(formatter);
+        String fileName = "login_activity.txt";
+
+        FileWriter fw = new FileWriter(fileName, true);
+        PrintWriter outputFile = new PrintWriter(fw);
 
         if (UserDao.get(userName) != null) {
             if (password.equals(UserDao.get(userName).getPassword())){
+                String message = "User, " + userName + ", successfully logged in at " + loginTime;
+                Utilities.loginActivity(outputFile, message);
+
                 ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
 
                 FXMLLoader fxmlLoader = ControllerHelper.getFxmlLoader();
@@ -115,10 +130,14 @@ public class LogInController implements Initializable {
                 MWController.previewAppointments();
             }
             else {
+                String message2 = "User, " + userName + ", unsuccessfully logged in at " + loginTime;
+                Utilities.loginActivity(outputFile, message2);
                 errorLabel.setText(wrongPassword);
             }
 
         } else {
+            String message3 = "User, " + userName + ", unsuccessfully logged in at  " + loginTime;
+            Utilities.loginActivity(outputFile, message3);
             errorLabel.setText(wrongLogin);
         }
     }

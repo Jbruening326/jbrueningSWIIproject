@@ -14,7 +14,6 @@ import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.User;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,26 +22,74 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class contains methods for the "updateAppointments.fxml" form. Author: Joseph Bruening
+ */
 public class UpdateAppointmentController implements Initializable {
+    /**
+     * Creates a Label object to display messages to the user
+     */
     public Label messageLabel;
+    /**
+     * Creates a save Button object
+     */
     public Button saveButton;
+    /**
+     * Creates a cancel Button object
+     */
     public Button cancelButton;
-
-
+    /**
+     * Creates a TextField object
+     */
     public TextField appIdTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField titleTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField descTextField;
+    /**
+     * Creates a DatePicker object
+     */
     public DatePicker datePicker;
-
+    /**
+     * Creates a ComboBox object of Strings
+     */
     public ComboBox<String> typeComboBox;
+    /**
+     * Creates a ComboBox object of Contact objects
+     */
     public ComboBox<Contact> contactComboBox;
+    /**
+     * Creates a ComboBox object of LocalTime objects
+     */
     public ComboBox<LocalTime> startTimeComboBox;
+    /**
+     * Creates a ComboBox object of LocalTime objects
+     */
     public ComboBox<LocalTime> endTimeComboBox;
+    /**
+     * Creates a ComboBox object of Customer objects
+     */
     public ComboBox<Customer> customerComboBox;
+    /**
+     * Creates a ComboBox object of User objects
+     */
     public ComboBox<User> userComboBox;
+    /**
+     * Creates a ComboBox object of Strings
+     */
     public ComboBox<String> locationComboBox;
 
 
+    /**
+     * This method initializes the "updateAppointments.fxml" form. When this form is loaded, ComboBox objects are
+     * pre-populated with data.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle)  {
         //Prefill location combobox list
         ObservableList<String> locations = locationComboBox.getItems();
@@ -52,12 +99,8 @@ public class UpdateAppointmentController implements Initializable {
         locations.add("Project site");
 
         //Prefill type combobox list
-        ObservableList<String> types = typeComboBox.getItems();
-        types.add("Planning Session");
-        types.add("De-Briefing");
-        types.add("Building");
-        types.add("Execution");
-        types.add("Project Close");
+        typeComboBox.getItems();
+        typeComboBox.setItems(Utilities.getAppointmentTypes());
 
         //Prefill Contact ComboBox
         contactComboBox.getItems();
@@ -97,6 +140,13 @@ public class UpdateAppointmentController implements Initializable {
         endTimeComboBox.setItems(Utilities.getAppointmentTimes());
     }
 
+    /**
+     * This method will be used to send appointment data from one form to another. When this method is called from
+     * another form, The data in the initial form will be sent to the "updateAppointment.fxml" form and populated into
+     * the corresponding fields.
+     * @param appointment
+     * @throws SQLException
+     */
     public void sendAppointment(Appointment appointment) throws SQLException {
         appIdTextField.setText(String.valueOf(appointment.getAppointmentId()));
         titleTextField.setText(appointment.getTitle());
@@ -110,8 +160,14 @@ public class UpdateAppointmentController implements Initializable {
         customerComboBox.setValue(appointment.getCustomer());
         userComboBox.setValue(appointment.getUser());
 
-
     }
+
+    /**
+     * This method will save changes. When the user interacts with the Button object,
+     * an existing Appointment object will be created and the database will be updated with the object info.
+     * @param actionEvent
+     * @throws Exception
+     */
     public void onSaveButtonClick(ActionEvent actionEvent) {
         try {
             int appointmentId = Integer.parseInt(appIdTextField.getText());
@@ -162,6 +218,12 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * This method will cancel changes. When the user interacts with the Button object, all changes on the form will
+     * be canceled and the user will return to the "mainWindow.fxml" form.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {
         ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }

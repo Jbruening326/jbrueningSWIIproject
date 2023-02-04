@@ -13,36 +13,82 @@ import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.User;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ResourceBundle;
 
+/**
+ * This class contains methods to interact with "addAppointment.fxml" form. Author: Joseph Bruening
+ */
 public class AddAppointmentController implements Initializable {
+    /**
+     * Creates a Label object for displaying messages
+     */
     public Label messageLabel;
+    /**
+     * Creates a save Button object
+     */
     public Button saveButton;
+    /**
+     * Creates a cancel Button object
+     */
     public Button cancelButton;
+    /**
+     * Creates a ComboBox object of Strings
+     */
     public ComboBox<String> typeComboBox;
+    /**
+     * Creates a ComboBox object of Contact objects
+     */
     public ComboBox<Contact> contactComboBox;
+    /**
+     * Creates a ComboBox object  of LocalTime objects
+     */
     public ComboBox<LocalTime> startTimeComboBox;
+    /**
+     * Creates a ComboBox object of LocalTime objects
+     */
     public ComboBox<LocalTime> endTimeComboBox;
+    /**
+     * Creates a ComboBox object of Customer objects
+     */
     public ComboBox<Customer> customerComboBox;
+    /**
+     * Creates a ComboBox object of User objects
+     */
     public ComboBox<User> userComboBox;
+    /**
+     * Creates a ComboBox object of Strings
+     */
     public ComboBox<String> locationComboBox;
+    /**
+     * Creates a TextField object
+     */
     public TextField appIdTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField titleTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField descTextField;
+    /**
+     * Creates a DatePicker object
+     */
     public DatePicker datePicker;
 
 
-
+    /**
+     * This method initializes the "addAppointments.fxml" form. When the form is loaded,
+     * ComboBoxes will be loaded with preselected data.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle)  {
         //Prefill location combobox list
         ObservableList<String> locations = locationComboBox.getItems();
@@ -52,12 +98,8 @@ public class AddAppointmentController implements Initializable {
         locations.add("Project site");
 
         //Prefill type combobox list
-        ObservableList<String> types = typeComboBox.getItems();
-        types.add("Planning Session");
-        types.add("De-Briefing");
-        types.add("Building");
-        types.add("Execution");
-        types.add("Project Close");
+        typeComboBox.getItems();
+        typeComboBox.setItems(Utilities.getAppointmentTypes());
 
 
         //Prefill Contact ComboBox
@@ -99,6 +141,12 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /**
+     * This method will save changes. When the user interacts with the Button object,
+     * a new Appointment object will be created and the database will be updated with the new object.
+     * @param actionEvent
+     * @throws Exception
+     */
     public void onSaveButtonClick(ActionEvent actionEvent) throws Exception {
 
 
@@ -155,6 +203,12 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /**
+     * This method will cancel changes. When the user interacts with the Button object, all changes on the form will
+     * be canceled and the user will return to the "mainWindow.fxml" form.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {
         ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }

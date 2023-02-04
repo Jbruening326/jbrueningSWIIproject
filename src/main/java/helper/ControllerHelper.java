@@ -11,9 +11,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This class contains methods that will be used to assist in controller class functionalities. Author: Joseph Bruening
+ */
 public abstract class ControllerHelper {
 
+    /**
+     * Creates an FXMLoader object
+     */
     private static FXMLLoader fxmlLoader;
+
+    /**
+     * This method will be used to assist controller classes when changing between forms. When this method is called,
+     * the arguements passed into the method will be used the load up the correct form.
+     * @param actionEvent
+     * @param fxmlName The name of the fxml file which will be opened
+     * @param width The width of the fxml file which will be opened
+     * @param height The height of the fxml file which will be opened
+     * @throws IOException
+     */
     public static void changeScene(ActionEvent actionEvent, String fxmlName, int width, int height) throws IOException {
 
         try {
@@ -31,10 +47,23 @@ public abstract class ControllerHelper {
         }
 
     }
+
+    /**
+     * This method is used to retrieve FXMLLoader object on a given controller. When this method is called the
+     * FXMLLoader object will be returned.
+     * @return Returns FXMLLoader object
+     */
     public static FXMLLoader getFxmlLoader(){
         return fxmlLoader;
     }
 
+    /**
+     * This method displays a Confirmation AlertType object. When this method is called a passed String will be used to
+     * display the specific message provided in the confirmation alert and returns the result of the action taken by
+     * the user.
+     * @param message The message the confirmation alert will be providing
+     * @return Returns the result of the button selection made
+     */
     public static ButtonType confirmationAlert(String message) {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.CANCEL);
         confirmation.showAndWait();
@@ -42,6 +71,12 @@ public abstract class ControllerHelper {
         return confirmation.getResult();
     }
 
+    /**
+     * This method displays a custom message. When this method is called a customer message is displayed to the user
+     * based on a passed String object.
+     * @param header The header of the message to be displayed
+     * @param message The message which will be displayed
+     */
     public static void messageDisplay (String header, String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(header);

@@ -3,6 +3,7 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Country;
 import model.Customer;
 
 import java.sql.PreparedStatement;
@@ -133,15 +134,39 @@ public abstract class CustomerDao {
         return ps.executeUpdate();
     }
 
-    public static void addAppointment(Appointment appointment) throws SQLException {
-        appointments.add(appointment);
-    }
+    /**
+     * This method will retrieve the number of customers that belong to a selected country.
+     * When this method is called, the total number of customers that belong to a selected country will be returned
+     * from a query.
+     * @param country The Country object that will be used in the query
+     * @return Returns the size of the list of customers from the results of the query
+     * @throws SQLException
+     */
+    public static int getCustomersByCountry(Country country) throws SQLException {
+        String sql = "SELECT * FROM customers " +
+                "INNER JOIN first_level_divisions " +
+                "ON customers.Division_ID = first_level_divisions.Division_ID " +
+                "WHERE Country_ID =  ?";
 
-    public static boolean removeAppointment(Appointment appointment){
-        return appointments.remove(appointment);
-    }
+       ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
-    public static ObservableList<Appointment> getAllAppointments(){
-        return appointments;
-    }
+       PreparedStatement ps = connection.prepareCall(sql);
+       ps.setInt(1, country.getCountryId());
+       ResultSet rs = ps.executeQuery();
+
+       while(rs.next()){
+           int customerId = rs.getInt("Customer_ID");
+           String customerName = rs.getString("Customer_Name");
+           String address = rs.getString("Address");
+           String postalCode = rs.getString("Postal_Code");
+           String phone = rs.getString("Phone");
+           int divisionId = rs.getInt("Division_ID");
+
+           Customer customer = new Customer(customerId, customerName, address, postalCode, phone, divisionId);
+
+           allCustomers.add(customer);
+
+       }
+       return allCustomers.size();
+   }
 }

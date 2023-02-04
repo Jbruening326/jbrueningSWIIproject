@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AppointmentDao;
 import dao.CountryDao;
 import dao.CustomerDao;
 import dao.FirstLevelDivisionDao;
@@ -10,41 +11,111 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Appointment;
 import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * This class contains methods to interact with the "customers.fxml" form. Author: Joseph Bruening
+ */
 public class CustomerController implements Initializable {
+    /**
+     * Creates a Label object
+     */
     public Label messageLabel;
+    /**
+     * Creates a save Button object
+     */
     public Button saveButton;
+    /**
+     * Creates a back Button object
+     */
     public Button backButton;
+    /**
+     * Creates a delete Button object
+     */
     public Button deleteButton;
+    /**
+     * Creates a RadioButton object belonging to a toggle group
+     */
     public RadioButton addRadioButton;
+    /**
+     * Creates a RadioButton object belonging to a toggle group
+     */
     public RadioButton updateRadioButton;
+    /**
+     * Creates a TextField object
+     */
     public TextField customerIdTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField nameTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField addressTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField postTextField;
+    /**
+     * Creates a TextField object
+     */
     public TextField phoneTextField;
+    /**
+     * Creates a ComboBox object of Country objects
+     */
     public ComboBox<Country> countryComboBox;
+    /**
+     * Creates a ComboBox object of FirstLevelDivision objects
+     */
     public ComboBox<FirstLevelDivision> firstLevelComboBox;
+    /**
+     * Creates a TableView object of Customer objects
+     */
     public TableView<Customer> customerTableView;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, Integer> customerIdCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> nameCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> addressCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> postalCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> phoneCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> countryCol;
+    /**
+     * Creates a TableColumn object
+     */
     public TableColumn<Customer, String> firstLevelCol;
 
 
-
+    /**
+     * This method initializes the "customer.fxml" form. When the form is loaded,
+     * the TableView object will be pre-populated with Customer objects.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             customerTableView.setItems(CustomerDao.getAll());
@@ -66,6 +137,13 @@ public class CustomerController implements Initializable {
     }
 
 
+    /**
+     * This method will perform an action when a selection is made on the countryComboBox. When a selection is made
+     * to the countryComboBox, FirstLevelDivision objects will be populated in the firstLevelComboBox based on
+     * the Country object selected.
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onCountryComboSelection(ActionEvent actionEvent) throws SQLException{
         Country country = countryComboBox.getValue();
 
@@ -78,13 +156,26 @@ public class CustomerController implements Initializable {
         firstLevelComboBox.setItems(firstLevelDivision);
     }
 
+    /**
+     * This method will delete a selected Customer object. When the delete Button object is interacted with,
+     * the selected customer will be removed along with any associated appointments.
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onDeleteButtonClick(ActionEvent actionEvent) throws SQLException{
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
 
         if(selectedCustomer != null){
             messageLabel.setText(null);
+
             if(ControllerHelper.confirmationAlert("Are you sure? " +
                     "Deleting customer will also remove associated appointments!") == ButtonType.YES){
+                int customerId = selectedCustomer.getCustomerId();
+                for(Appointment appointment : AppointmentDao.getAll()){
+                    if(appointment.getCustomerId() == customerId){
+                        AppointmentDao.delete(appointment);
+                    }
+                }
                 CustomerDao.delete(selectedCustomer);
                 ControllerHelper.messageDisplay("Customer Deleted","Customer with ID, " +
                         selectedCustomer.getCustomerId() +
@@ -97,6 +188,10 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * This method will clear data in the form. When the RadioButton object is selected, form data will be cleared.
+     * @param actionEvent
+     */
     public void onAddRadioButtonClick(ActionEvent actionEvent) {
         customerIdTextField.clear();
         nameTextField.clear();
@@ -107,6 +202,12 @@ public class CustomerController implements Initializable {
         saveButton.setText("Save");
     }
 
+    /**
+     * This method will populate Customer object data into the form. When the RadioButton object is selected,
+     * a selected Customer object data will be populated into the form fields and ComboBox object.
+     * @param actionEvent
+     * @throws Exception
+     */
     public void onUpdateRadioButtonClick(ActionEvent actionEvent) throws Exception {
         messageLabel.setText(null);
 
@@ -131,6 +232,13 @@ public class CustomerController implements Initializable {
 
     }
 
+    /**
+     * This method will create or update Customer objects. When the save/update Button object is interacted with.,
+     * information from the field and ComboBox object will be used to create or update Customer objects as well
+     * as make appropriate changes to the database.
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onSaveButtonClick(ActionEvent actionEvent) throws SQLException {
         try {
             String name = nameTextField.getText();
@@ -158,6 +266,7 @@ public class CustomerController implements Initializable {
                 addressTextField.clear();
                 postTextField.clear();
                 phoneTextField.clear();
+                addRadioButton.fire();
             }
             customerTableView.setItems(CustomerDao.getAll());
         }
@@ -168,6 +277,12 @@ public class CustomerController implements Initializable {
     }
 
 
+    /**
+     * This method launch a another form. When the user interacts with the Button object,
+     * the user will return to the "mainWindow.fxml" form.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onBackButtonClick(ActionEvent actionEvent) throws IOException {
         ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }

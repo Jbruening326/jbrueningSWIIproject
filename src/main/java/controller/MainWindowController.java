@@ -18,7 +18,7 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 /**
- * This class is a controller for the main window form.
+ * This class is a controller for the "mainWindow.fxml" form. Author: Joseph Bruening
  */
 public class MainWindowController implements Initializable{
     /**
@@ -112,7 +112,7 @@ public class MainWindowController implements Initializable{
     public TableColumn<Appointment, Integer> userIdCol;
 
     /**
-     * This method initializes the main window form. When the main window form is updated, the table is repopulated
+     * This method initializes the "mainWindow.fxml" form. When the form is loaded, the table is populated
      * with all appointments.
      * @param url
      * @param resourceBundle
@@ -140,6 +140,11 @@ public class MainWindowController implements Initializable{
         }
     }
 
+    /**
+     * This method scans for upcoming appointments. When this method is called, an appointment within the next 15 minutes
+     * will display a message to the user.
+     * @throws SQLException
+     */
     public void previewAppointments() throws SQLException{
         try {
             ObservableList<Appointment> allAppointments = AppointmentDao.getAll();
@@ -157,23 +162,22 @@ public class MainWindowController implements Initializable{
             System.out.println(e.getMessage());
         }
 
-
     }
-
-
 
         /**
          * This method will filter all appointments by week. When the radio button is fired, the tableview will be changed
-         * to display all appointments within the next 7 days.
+         * to display all appointments within the next rolling 7 days.
          * @param actionEvent
          * @throws SQLException
          */
     public void onWeekViewRadioButton(ActionEvent actionEvent) throws SQLException {
         messageLabel.setText(null);
-        ObservableList<Appointment> weeklyAppointments = Utilities.filterAppointments(LocalDateTime.now().plusDays(7));
+        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00"));
+        LocalDateTime end = LocalDateTime.of(LocalDate.now().plusDays(7), LocalTime.parse("23:59"));
+        ObservableList<Appointment> weeklyAppointments = Utilities.filterAppointments(start, end);
 
         if(weeklyAppointments.isEmpty()){
-            appointmentsTableView.setItems(weeklyAppointments);
+            appointmentsTableView.setItems(null);
             messageLabel.setText("No appointments this week");
         }
         else{
@@ -184,15 +188,15 @@ public class MainWindowController implements Initializable{
 
     /**
      * This method will filter all appointments by month. When the radio button is fired, the tableview will be changed
-     * to display all appointments within the next month.
+     * to display all appointments within the next rolling 30 days.
      * @param actionEvent
      * @throws SQLException
      */
     public void onMonthViewRadioButton(ActionEvent actionEvent) throws SQLException{
         messageLabel.setText(null);
-        appointmentsTableView.setItems(Utilities.filterAppointments(LocalDateTime.now().plusMonths(1)));
-        messageLabel.setText(null);
-        ObservableList<Appointment> monthlyAppointments = Utilities.filterAppointments(LocalDateTime.now().plusMonths(1));
+        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00"));
+        LocalDateTime end = LocalDateTime.of(LocalDate.now().plusDays(30), LocalTime.parse("23:59"));
+        ObservableList<Appointment> monthlyAppointments = Utilities.filterAppointments(start, end);
 
         if(monthlyAppointments.isEmpty()){
             appointmentsTableView.setItems(null);
@@ -216,7 +220,7 @@ public class MainWindowController implements Initializable{
 
     /**
      * This method changes the form. When the Add Appointment button is interacted with, the from will be changed to the
-     * Add Appointment form.
+     * "addAppointment.fxml" form.
      * @param actionEvent
      * @throws IOException
      */
@@ -225,8 +229,8 @@ public class MainWindowController implements Initializable{
     }
 
     /**
-     * This method changes the form. When the Update Appointment button is interacted with, the from will be changed to the
-     * Update Appointment form.
+     * This method changes the form. When the Button object is interacted with, the from will be changed to the
+     * "updateAppointment.fxml" form.
      * @param actionEvent
      * @throws IOException
      */
@@ -246,7 +250,7 @@ public class MainWindowController implements Initializable{
     }
 
     /**
-     * This method will remove a selected appointment. When the cancel button is interacted with, A selected
+     * This method will remove a selected appointment. When the Button object is interacted with, A selected
      * appointment from the table will be removed.
      * @param actionEvent
      * @throws SQLException
@@ -270,8 +274,8 @@ public class MainWindowController implements Initializable{
     }
 
     /**
-     * This method changes the form. When the Customers button is interacted with, the from will be changed to the
-     * Customers form.
+     * This method changes the form. When the Button object is interacted with, the from will be changed to the
+     * "customer.fxml" form.
      * @param actionEvent
      * @throws IOException
      */
@@ -291,11 +295,11 @@ public class MainWindowController implements Initializable{
 
     /**
      * This method changes the form. When the Reports button is interacted with, the from will be changed to the
-     * Reports form.
+     * "reports.fxml" form.
      * @param actionEvent
      * @throws IOException
      */
     public void onReportsButtonClick(ActionEvent actionEvent) throws IOException {
-        ControllerHelper.changeScene(actionEvent, "reports.fxml", 696, 427);
+        ControllerHelper.changeScene(actionEvent, "reports.fxml", 852, 579);
     }
 }

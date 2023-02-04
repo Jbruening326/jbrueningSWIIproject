@@ -1,38 +1,202 @@
 package controller;
 
+import dao.AppointmentDao;
+import dao.ContactDao;
+import dao.CountryDao;
+import dao.CustomerDao;
 import helper.ControllerHelper;
+import helper.Utilities;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
+import javafx.scene.control.cell.PropertyValueFactory;
+import model.Appointment;
+import model.Contact;
+import model.Country;
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 
-public class ReportsController {
-    public ComboBox monthComboBox;
-    public ComboBox typeComboBox;
-    public ComboBox contactComboBox;
-    public ComboBox countryComboBox;
+/**
+ * This class contains methods to interact with the "reports.fxml" form. Author: Joseph Bruening
+ */
+public class ReportsController implements Initializable {
+
+    /**
+     * Creates a ComboBox object to display Integers
+     */
+    public ComboBox<Integer> monthComboBox;
+    /**
+     * Creates a ComboBox object to display Strings
+     */
+    public ComboBox<String> typeComboBox;
+    /**
+     * Creates a ComboBox object to display Contact objects
+     */
+    public ComboBox<Contact> contactComboBox;
+    /**
+     * Creates a ComboBox object to display Country objects
+     */
+    public ComboBox<Country> countryComboBox;
+    /**
+     * Creates a Label object
+     */
     public Label messageLabel;
-    public Button runButton;
-    public Button cancelButton;
-    public RadioButton appRadioButton;
-    public ToggleGroup reportOptions;
-    public RadioButton contactRadioButton;
-    public RadioButton customerRadioButton;
+    /**
+     * Creates a Label object for displaying messages to the user if needed
+     */
+    public Label apptResultLabel;
+    /**
+     * Creates a Label object for displaying results of a query
+     */
+    public Label countryResultLabel;
+    /**
+     * Creates a Label object for displaying results of a query
+     */
+    public Label contactMessageLabel;
+    /**
+     * Creates a  back Button object
+     */
+    public Button backButton;
+    /**
+     * Creates a TableView object of Appointment objects
+     */
+    public TableView<Appointment> appointmentTableView;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, Integer> apptIdColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, String> titleColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, String> typeColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, String> descriptionColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, LocalDateTime> startColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, LocalDateTime> endColumn;
+    /**
+     * Creates a TableColumn object
+     */
+    public TableColumn<Appointment, Integer >customerIdColumn;
 
-    public void onRunButtonClick(ActionEvent actionEvent) throws IOException {
-        ControllerHelper.changeScene(actionEvent, "result.fxml", 600, 400);
+
+    /**
+     * This method initializes the "reports.fxml" form. When the form is loaded, ComboBox objects will be pre-populated.
+     * @param url
+     * @param resourceBundle
+     */
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Prefill monthComboBox
+        ObservableList<Integer> months = FXCollections.observableArrayList();
+        for(int i = 1; i <=12 ; i++){
+            months.add(i);
+        }
+        monthComboBox.setItems(months);
+
+        //Prefill typeComboBox
+        typeComboBox.getItems();
+        typeComboBox.setItems(Utilities.getAppointmentTypes());
+
+        //Prefill contactComboBox
+        contactComboBox.getItems();
+        try {
+            contactComboBox.setItems(ContactDao.getAll());
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        //Prefill countyComboBox
+        countryComboBox.getItems();
+        try {
+            countryComboBox.setItems(CountryDao.getAll());
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
-    public void onCancelButtonClick(ActionEvent actionEvent) throws IOException {
+    /**
+     * This method launch a another form. When the user interacts with the Button object,
+     * the user will return to the "mainWindow.fxml" form.
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void onBackButtonClick(ActionEvent actionEvent) throws IOException {
         ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
     }
 
-    public void onAppRadioButtonClick(ActionEvent actionEvent) {
+    /**
+     * This method will perform a query when an item is select. When a selection is made on the countryComboBox,
+     * a query will be executed with the result being displayed on the countryResultLabel.
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onCountrySelect(ActionEvent actionEvent) throws SQLException {
+        Country country = countryComboBox.getValue();
+        countryResultLabel.setText(String.valueOf(CustomerDao.getCustomersByCountry(country)));
+
     }
 
-    public void onContactRadioButtonClick(ActionEvent actionEvent) {
+    /**
+     * This method will perform an action based on the selection made. When a selection is made on the monthComboBox,
+     * the typComboBox will be enabled.
+     * @param actionEvent
+     */
+    public void onMonthSelect(ActionEvent actionEvent) {
+        typeComboBox.setDisable(false);
+        apptResultLabel.setText(null);
     }
 
-    public void onCustomerRadioButtonClick(ActionEvent actionEvent) {
+    /**
+     * This method will perform a query when an item is selected. When a selection is made on the typeComboBox,
+     * a query will be executed with the result being displayed on the appResultLabel.
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onTypeSelect(ActionEvent actionEvent) throws SQLException {
+        int month = monthComboBox.getValue();
+        String t = typeComboBox.getValue();
+        apptResultLabel.setText(String.valueOf(AppointmentDao.getAppointmentByMonthType(month, t)));
+    }
+
+    /**
+     * This method will perform a query when an item is selected. When a selection is made on the contactComboBox,
+     * a query will be executed with the result being displayed on the appointmentTableView.
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onContactSelect(ActionEvent actionEvent) throws SQLException {
+        contactMessageLabel.setText(null);
+        appointmentTableView.setItems(AppointmentDao.getAppointmentsByContact(contactComboBox.getValue()));
+        if(AppointmentDao.getAppointmentsByContact(contactComboBox.getValue()).isEmpty()){
+            contactMessageLabel.setText("No appointments for selected contact");
+        }
+        else {
+            apptIdColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
+            titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+            typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+            startColumn.setCellValueFactory(new PropertyValueFactory<>("StartDateTime"));
+            endColumn.setCellValueFactory(new PropertyValueFactory<>("EndDateTime"));
+            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
+        }
     }
 }
