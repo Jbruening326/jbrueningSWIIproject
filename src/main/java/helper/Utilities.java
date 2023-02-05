@@ -98,7 +98,7 @@ public abstract class Utilities {
     }
 
     /**
-     * This method will be used to convert LocalTime to Eastern Standard Time(EST). When this method is called,
+     * This method will be used to convert LocalDateTime to Eastern Standard Time(EST). When this method is called,
      * a LocalDateTime object will be converted to the LocalDateTime of EST which will be returned.
      * @param originTime The LocalDateTime object which will be converted
      * @return Returns the LocalDateTime in EST
@@ -109,6 +109,20 @@ public abstract class Utilities {
         ZonedDateTime target = origin.withZoneSameInstant(ZoneId.of("America/New_York"));
 
         return target.toLocalDateTime();
+
+    }
+
+    /**
+     * This method will be used to convert LocalDateTime to UTC. When this method is called, a LocalDate Time object
+     * will be converted to the LocalDateTime in UTC.
+     * @param originTime The LocalDateTime object which will be converted
+     * @return Returns the LocalDateTime in UTC
+     */
+    public static LocalDateTime toUTCTime(LocalDateTime originTime){
+        ZonedDateTime origin = originTime.atZone(ZoneId.systemDefault());
+        ZonedDateTime utcZone = origin.withZoneSameInstant(ZoneId.of("UTC"));
+
+        return utcZone.toLocalDateTime();
 
     }
 

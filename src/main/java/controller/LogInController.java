@@ -112,7 +112,8 @@ public class LogInController implements Initializable {
         String userName = userNameTextField.getText();
         String password = passwordTextField.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String loginTime = LocalDateTime.now().format(formatter);
+        LocalDateTime loginTimeUTC = Utilities.toUTCTime(LocalDateTime.now());
+        String loginTime = loginTimeUTC.format(formatter);
         String fileName = "login_activity.txt";
 
         FileWriter fw = new FileWriter(fileName, true);
@@ -120,7 +121,7 @@ public class LogInController implements Initializable {
 
         if (UserDao.get(userName) != null) {
             if (password.equals(UserDao.get(userName).getPassword())){
-                String message = "User, " + userName + ", successfully logged in at " + loginTime;
+                String message = "User, " + userName + ", successfully logged in at " + loginTime + " UTC";
                 Utilities.loginActivity(outputFile, message);
 
                 ControllerHelper.changeScene(actionEvent, "mainWindow.fxml", 964, 570);
@@ -130,13 +131,13 @@ public class LogInController implements Initializable {
                 MWController.previewAppointments();
             }
             else {
-                String message2 = "User, " + userName + ", unsuccessfully logged in at " + loginTime;
+                String message2 = "User, " + userName + ", unsuccessfully logged in at " + loginTime + " UTC";
                 Utilities.loginActivity(outputFile, message2);
                 errorLabel.setText(wrongPassword);
             }
 
         } else {
-            String message3 = "User, " + userName + ", unsuccessfully logged in at  " + loginTime;
+            String message3 = "User, " + userName + ", unsuccessfully logged in at  " + loginTime + " UTC";
             Utilities.loginActivity(outputFile, message3);
             errorLabel.setText(wrongLogin);
         }

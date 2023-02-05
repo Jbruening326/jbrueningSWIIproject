@@ -14,17 +14,6 @@ import java.util.ResourceBundle;
 
 
 
-
-//TODO
-//Questions for instructor:
-
-
-//Add the Lamdas. what it does and why
-//JavaDoc
-//README.txt
-//proofread. remove any funky statements and unused imports
-//check everything in the VM
-
 /**
  * This is the Main class. This method provides additional methods for the initial setup of the application. Author: Joseph Bruening.
  */

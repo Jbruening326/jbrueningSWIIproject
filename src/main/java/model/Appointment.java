@@ -221,7 +221,7 @@ public class Appointment {
     /**
      * This method gets a Contact object from an Appointment object. When this method is called a Contact object will be
      * returned based on the value of the Appointment object.
-     * @return Returns the Contact object that the Appointment object is assiciated with
+     * @return Returns the Contact object that the Appointment object is associated with
      * @throws SQLException
      */
     public Contact getContact() throws SQLException{
@@ -230,7 +230,7 @@ public class Appointment {
     /**
      * This method gets a Customer object from an Appointment object. When this method is called a Customer object will be
      * returned based on the value of the Appointment object.
-     * @return Returns the Customer object that the Appointment object is assiciated with
+     * @return Returns the Customer object that the Appointment object is associated with
      * @throws SQLException
      */
     public Customer getCustomer() throws SQLException {
@@ -240,7 +240,7 @@ public class Appointment {
     /**
      * This method gets a User object from an Appointment object. When this method is called a User object will be
      * returned based on the value of the Appointment object.
-     * @return Returns the User object that the Appointment object is assiciated with
+     * @return Returns the User object that the Appointment object is associated with
      * @throws SQLException
      */
     public User getUser() throws SQLException{
