@@ -4,7 +4,9 @@ import dao.ContactDao;
 import dao.CustomerDao;
 import dao.UserDao;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * This class contains contractor, getters and setters for an Appointment object
@@ -245,6 +247,30 @@ public class Appointment {
      */
     public User getUser() throws SQLException{
         return UserDao.get(userId);
+    }
+
+    /**
+     * This method gets LocalDate of an Appointment object. When this method is called a LocalDate object is returned
+     * @return The LocalDate for the Appointment object
+     */
+    public LocalDate getLocalDate() {
+        return startDateTime.toLocalDate();
+    }
+
+    /**
+     * This method gets LocalTime of an Appointment object. When this method is called a LocalTime object is returned
+     * @return The LocalTime for the Appointment object
+     */
+    public LocalTime getStartTime() {
+        return startDateTime.toLocalTime();
+    }
+
+    /**
+     * This method gets LocalTime of an Appointment object. When this method is called a LocalTime object is returned
+     * @return The LocalTime for the Appointment object
+     */
+    public LocalTime getEndTime() {
+        return endDateTime.toLocalTime();
     }
 
 
