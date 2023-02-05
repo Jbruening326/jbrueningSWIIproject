@@ -148,7 +148,16 @@ public class LogInController implements Initializable {
      * @param actionEvent
      */
     public void onExitButtonClick(ActionEvent actionEvent) {
-        if(ControllerHelper.confirmationAlert("Are you sure you want to exit?") == ButtonType.YES){
+        Locale locale = Utilities.getLocale();
+        String alert = "Are you sure you want to exit?";
+
+        if(locale.getLanguage().equals("fr")){
+            ResourceBundle rb = ResourceBundle.getBundle("Languages", locale);
+            alert = rb.getString("Are") + " " + rb.getString("you") + " " + rb.getString("sure")
+                    + " " + rb.getString("you") + " " + rb.getString("want") + " " + rb.getString("to")
+                    + " " + rb.getString("exit") + "?";
+        }
+        if(ControllerHelper.confirmationAlert(alert) == ButtonType.YES){
             System.exit(0);
         }
     }

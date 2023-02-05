@@ -156,6 +156,9 @@ public class MainWindowController implements Initializable{
                     ControllerHelper.messageDisplay("Upcoming Appointment", appointment.getTitle() +
                             " appointment at " + String.valueOf(appointment.getStartDateTime()) + " starts soon!");
                 }
+                else{
+                    messageLabel.setText("There are no upcoming appointments");
+                }
             }
         }
         catch(SQLException e){
