@@ -20,6 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * This class contains methods to interact with the "reports.fxml" form. Author: Joseph Bruening
@@ -178,18 +179,26 @@ public class ReportsController implements Initializable {
     }
 
     /**
-     * This method will perform a query when an item is selected. When a selection is made on the contactComboBox,
-     * a query will be executed with the result being displayed on the appointmentTableView.
+     * This method will filter appointments using a <b>lambda</b> on a ComboBox object selection. When the ComboBox object is
+     * selected, the lambda expression will be used to filter through all appointments and collect only appointments
+     * matching a given contactId. This lambda reduced the need to write another sql statement to query the data and return
+     * all appointments based on contactId.
      * @param actionEvent
      * @throws SQLException
      */
     public void onContactSelect(ActionEvent actionEvent) throws SQLException {
         contactMessageLabel.setText(null);
-        appointmentTableView.setItems(AppointmentDao.getAppointmentsByContact(contactComboBox.getValue()));
-        if(AppointmentDao.getAppointmentsByContact(contactComboBox.getValue()).isEmpty()){
+        int contactId = contactComboBox.getValue().getContactID();
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+        filteredAppointments = AppointmentDao.getAll().stream()
+                .filter(a -> a.getContactId() == contactId)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        if(filteredAppointments.isEmpty()){
             contactMessageLabel.setText("No appointments for selected contact");
         }
         else {
+            appointmentTableView.setItems(filteredAppointments);
             apptIdColumn.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
             titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));

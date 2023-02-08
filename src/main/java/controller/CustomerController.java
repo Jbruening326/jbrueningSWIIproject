@@ -145,6 +145,7 @@ public class CustomerController implements Initializable {
      * @throws SQLException
      */
     public void onCountryComboSelection(ActionEvent actionEvent) throws SQLException{
+        firstLevelComboBox.setValue(null);
         Country country = countryComboBox.getValue();
 
         ObservableList<FirstLevelDivision> firstLevelDivision = FXCollections.observableArrayList();
@@ -177,6 +178,7 @@ public class CustomerController implements Initializable {
                     }
                 }
                 CustomerDao.delete(selectedCustomer);
+                
                 ControllerHelper.messageDisplay("Customer Deleted","Customer with ID, " +
                         selectedCustomer.getCustomerId() +
                         ", and name, " + selectedCustomer.getCustomerName() + ", has been deleted");

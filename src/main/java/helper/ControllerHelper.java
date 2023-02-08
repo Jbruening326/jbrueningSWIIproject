@@ -8,9 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * This class contains methods that will be used to assist in controller class functionalities. Author: Joseph Bruening

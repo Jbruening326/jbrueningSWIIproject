@@ -4,7 +4,6 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
-import model.Contact;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -194,42 +193,5 @@ public abstract class AppointmentDao {
         return appointments.size();
     }
 
-    /**
-     * This method will obtain a list of Appointment objects based on the results of a query. When this method is called,
-     * All Appointment objects  belonging to a selected Contact object will be returned in an ObservableList.
-     * @param contact The Contact object which will be queried
-     * @return Returns an ObservableList of Appointment objects
-     * @throws SQLException
-     */
-    public static ObservableList<Appointment> getAppointmentsByContact(Contact contact) throws SQLException {
-        String sql = "SELECT * FROM appointments WHERE Contact_ID = ?";
-        ObservableList<Appointment> contactsAppointments = FXCollections.observableArrayList();
-
-        PreparedStatement ps = connection.prepareCall(sql);
-        ps.setInt(1,contact.getContactID());
-        ResultSet rs = ps.executeQuery();
-
-        while(rs.next()){
-            int appointmentId = rs.getInt("Appointment_ID");
-            String title = rs.getString("Title");
-            String description = rs.getString("Description");
-            String location = rs.getString("Location");
-            String type = rs.getString("Type");
-            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
-            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-            int customerId = rs.getInt("Customer_ID");
-            int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
-
-            Appointment appointment = new Appointment(appointmentId, title, description, location, type,
-                    start, end, customerId, userId, contactId);
-
-            contactsAppointments.add(appointment);
-
-        }
-
-        return contactsAppointments;
-
-    }
 
 }

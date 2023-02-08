@@ -31,6 +31,7 @@ public abstract class Utilities {
      * @return Returns the default Local of the user of the application
      */
     public static Locale getLocale(){
+
         return Locale.getDefault();
     }
 
@@ -38,11 +39,11 @@ public abstract class Utilities {
     /**
      * This method is used to filter appointment for a custom display. When this method is called, a passed start and
      * local date time is used to create a customer list of appointments based on the arguments.
-     * This method uses lambdas. The lambda in this method will place the Observable list in a stream which will and
+     * <p><b>This method uses lambdas. The lambda in this method will place the Observable list in a stream which will and
      * filter out specific appointment that fall within a specified time frame and collects the results back into the Observable list.
      * This lambda allows for a faster approach to filtering appointments by removing everything you don't want to have in the list.
      * The longer approach would include a for loop with a conditional statement that adds appointments to the list based on
-     * desired appointment window. Credit snippets of code to MKyong, and Juan Ruiz.
+     * desired appointment window. Credit snippets of code to MKyong, and Juan Ruiz.</b></p>
      * @param start
      * @param end
      * @return
@@ -58,6 +59,7 @@ public abstract class Utilities {
 
         return filteredAppointments;
     }
+
 
 
     /**

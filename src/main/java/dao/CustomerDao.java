@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Country;
 import model.Customer;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
